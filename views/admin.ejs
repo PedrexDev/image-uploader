@@ -12,6 +12,7 @@
             <div>
               <strong><%= u.displayName || u.username %></strong>
               <small class="text-muted d-block">Discord ID: <code><%= u.discordId %></code></small>
+              <small class="text-muted d-block">Role: <code><%= u.role %></code></small>
             </div>
             <form method="POST" action="/admin/remove/<%= u.discordId %>">
               <button class="btn btn-sm btn-outline-danger">Remove</button>

@@ -11,7 +11,7 @@ function isOwner(req, res, next) {
 }
 
 router.get('/', isOwner, async (req, res) => {
-  const users = await User.find({ role: 'user' });
+  const users = await User.find({ role: 'owner' });
   const uploads = await Upload.find().sort({ uploadedAt: -1 });
 
   res.render('admin', {
