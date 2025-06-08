@@ -42,7 +42,7 @@ app.get('/auth/discord', passport.authenticate('discord'));
 app.get('/auth/discord/callback',
   passport.authenticate('discord', { failureRedirect: '/' }),
   (req, res) => {
-    if (!ALLOWED_USER_ID.includes(req.user.id)) {
+    if (req.user.discordId !== ALLOWED_USER_ID) {
       req.logout(() => {
         res.status(403).render('not-allowed');
       });

@@ -13,9 +13,12 @@
           <h4 class="fw-bold"><%= user.global_name || user.username %></h4>
           <p class="text-muted mb-1">@<%= user.username %></p>
           <p class="small text-muted">ID: <code><%= user.id %></code></p>
-          <p class="small text-muted">
-            Created: <%= new Date(Number((BigInt(user.id) >> 22n) + 1420070400000n)).toLocaleString() %>
-          </p>
+          <% if (user.discordId) { %>
+  <p class="small text-muted">
+    Created: <%= new Date(Number((BigInt(user.discordId) >> 22n) + 1420070400000n)).toLocaleString() %>
+  </p>
+<% } %>
+
         </div>
       </div>
     </div>
