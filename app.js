@@ -60,6 +60,7 @@ app.get('/logout', (req, res) => {
 
 app.use('/upload', isAuthenticated, require('./routes/upload'));
 app.use('/gallery', require('./routes/gallery'));
+app.use('/admin', require('./routes/admin'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

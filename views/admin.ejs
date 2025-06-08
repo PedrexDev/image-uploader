@@ -1,0 +1,102 @@
+<%- include('partials/header', { title: 'Admin Panel' }) %>
+
+<div class="container py-5">
+  <h2 class="mb-4 text-center">Admin Panel</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h4>Authorized Users (<%= userCount %>)</h4>
+      <ul class="list-group mb-3">
+        <% users.forEach(u => { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong><%= u.displayName || u.username %></strong>
+              <small class="text-muted d-block">Discord ID: <code><%= u.discordId %></code></small>
+            </div>
+            <form method="POST" action="/admin/remove/<%= u.discordId %>">
+              <button class="btn btn-sm btn-outline-danger">Remove</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+
+      <form method="POST" action="/admin/add" class="card p-3">
+        <h5 class="mb-2">Add Authorized User</h5>
+        <input type="text" name="discordId" class="form-control mb-2" placeholder="Discord ID" required>
+        <input type="text" name="username" class="form-control mb-2" placeholder="Username" required>
+        <input type="text" name="displayName" class="form-control mb-2" placeholder="Display Name" required>
+        <button type="submit" class="btn btn-success">Add User</button>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <h4>All Uploaded Images</h4>
+      <% if (uploads.length === 0) { %>
+        <div class="alert alert-info">No uploads found.</div>
+      <% } else { %>
+        <div class="list-group">
+          <% uploads.forEach(upload => { %>
+            <div class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="me-3">
+                <img src="/uploads/<%= upload.filename %>" width="80" height="80" style="object-fit:cover;" class="rounded">
+              </div>
+              <div class="flex-grow-1">
+                <strong><%= upload.title || 'Untitled' %></strong>
+                <br>
+                <small>By: <%= upload.uploader.displayName || upload.uploader.username %> | <%= new Date(upload.uploadedAt).toLocaleString() %></small>
+              </div>
+              <form method="POST" action="/admin/delete-image/<%= upload._id %>">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h4 class="text-center">Uploader Stats</h4>
+      <canvas id="uploadsChart" height="100"></canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const uploadsData = <%- JSON.stringify(uploads.reduce((acc, u) => {
+    const date = new Date(u.uploadedAt).toLocaleDateString();
+    acc[date] = (acc[date] || 0) + 1;
+    return acc;
+  }, {})) %>;
+
+  const labels = Object.keys(uploadsData);
+  const values = Object.values(uploadsData);
+
+  new Chart(document.getElementById('uploadsChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Uploads per Day',
+        data: values,
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          stepSize: 1
+        }
+      }
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>
