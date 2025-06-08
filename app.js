@@ -40,8 +40,11 @@ app.get('/', (req, res) => {
 app.get('/auth/discord', passport.authenticate('discord'));
 app.get('/auth/discord/callback',
   passport.authenticate('discord', { failureRedirect: '/' }),
-  (req, res) => {
-    if (req.user.discordId !== ALLOWED_USER_ID) {
+  async (req, res) => {
+    const isOwner = req.user.discordId === ALLOWED_USER_ID;
+    const hasOwnerRole = req.user.roles && req.user.roles.includes('owner');
+
+    if (!isOwner && !hasOwnerRole) {
       req.logout(() => {
         res.status(403).render('not-allowed');
       });
