@@ -36,24 +36,7 @@ router.post('/', upload.single('image'), async (req, res) => {
     }
   });
   await upload.save();
-  res.redirect('/upload');
-});
-
-router.post('/delete/:id', async (req, res) => {
-  const upload = await Upload.findById(req.params.id);
-  if (upload.uploader.discordId !== req.user.discordId && req.user.role !== 'owner') return res.sendStatus(403);
-  fs.unlinkSync(path.join(__dirname, '../public/uploads', upload.filename));
-  await upload.deleteOne();
-  res.redirect('/upload');
-});
-
-router.post('/edit/:id', async (req, res) => {
-  const upload = await Upload.findById(req.params.id);
-  if (upload.uploader.discordId !== req.user.discordId && req.user.role !== 'owner') return res.sendStatus(403);
-  upload.title = req.body.title;
-  upload.description = req.body.description;
-  await upload.save();
-  res.redirect('/upload');
+  res.redirect('/gallery');
 });
 
 module.exports = router;

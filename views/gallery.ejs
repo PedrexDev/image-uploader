@@ -20,9 +20,14 @@
                 Uploaded on <%= new Date(upload.uploadedAt).toLocaleString() %>
               </small>
 
-              <form class="mt-auto d-flex justify-content-between" action="/upload/delete/<%= upload._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                <a href="/gallery/edit/<%= upload._id %>" class="btn btn-outline-primary btn-sm">Edit</a>
-                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+              <div class="input-group input-group-sm mb-2">
+                <input type="text" class="form-control" readonly value="<%= `http://localhost:3000/uploads/${upload.filename}` %>" id="link-<%= upload._id %>">
+                <button class="btn btn-outline-secondary" type="button" onclick="copyLink('<%= upload._id %>')"><i class="fa-solid fa-copy"></i> Copy</button>
+              </div>
+
+              <form class="mt-auto d-flex justify-content-between" action="/gallery/delete/<%= upload._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                <a href="/gallery/edit/<%= upload._id %>" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
               </form>
             </div>
           </div>
@@ -31,5 +36,29 @@
     </div>
   <% } %>
 </div>
+
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <div id="copyToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Link copied to clipboard!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyLink(id) {
+    const input = document.getElementById('link-' + id);
+    input.select();
+    input.setSelectionRange(0, 99999); // For mobile
+    document.execCommand('copy');
+
+    const toast = new bootstrap.Toast(document.getElementById('copyToast'));
+    toast.show();
+  }
+</script>
 
 <%- include('partials/footer') %>
