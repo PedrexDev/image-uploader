@@ -1,14 +1,20 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const router = express.Router();
+const Upload = require('../models/Upload');
 
-router.get('/', (req, res) => {
-  const dir = path.join(__dirname, '../public/uploads');
-  fs.readdir(dir, (err, files) => {
-    if (err) return res.send('Error reading upload directory.');
-    res.render('gallery', { files, user: req.user });
-  });
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect('/');
+}
+
+router.get('/', isAuthenticated, async (req, res) => {
+  try {
+    const uploads = await Upload.find({ uploaderId: req.user.id }).sort({ uploadedAt: -1 });
+    res.render('gallery', { user: req.user, uploads });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;
