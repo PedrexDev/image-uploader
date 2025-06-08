@@ -1,12 +1,21 @@
 <%- include('partials/header', { title: 'Upload Image' }) %>
 
-<h1>Upload Image</h1>
-<form action="/upload" method="POST" enctype="multipart/form-data">
-  <div class="mb-3">
-    <input type="file" name="image" accept="image/*" class="form-control" required>
+<div class="container py-5 d-flex justify-content-center align-items-center">
+  <div class="card shadow rounded-4 p-4" style="max-width: 500px; width: 100%;">
+    <h2 class="text-center mb-4">Upload Image</h2>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="image" class="form-label">Choose an image</label>
+        <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> Upload</button>
+        <a href="/" class="btn btn-outline-secondary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      </div>
+    </form>
   </div>
-  <button type="submit" class="btn btn-primary">Upload</button>
-  <a href="/" class="btn btn-secondary">Back</a>
-</form>
+</div>
 
 <%- include('partials/footer') %>
