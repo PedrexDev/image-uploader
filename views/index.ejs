@@ -1,17 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Image Uploader</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body class="p-5">
-  <h1>Welcome<% if (user) { %>, <%= user.username %><% } %>!</h1>
-  <% if (user) { %>
-    <a href="/upload" class="btn btn-primary">Upload</a>
-    <a href="/gallery" class="btn btn-secondary">Gallery</a>
-    <a href="/logout" class="btn btn-danger">Logout</a>
-  <% } else { %>
-    <a href="/auth/discord" class="btn btn-success">Login with Discord</a>
-  <% } %>
-</body>
-</html>
+<%- include('partials/header', { title: 'Home' }) %>
+
+<% if (user) { %>
+<div class="container py-5">
+  <div class="row g-4 justify-content-center">
+    <div class="col-lg-4">
+      <div class="card shadow rounded-4 border-0 h-100">
+        <div class="card-body text-center">
+          <img src="<%= user.avatar
+            ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
+            : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator || '0') % 5}.png` %>"
+            alt="Avatar" class="rounded-circle mb-3" style="width: 120px; height: 120px;">
+          <h4 class="fw-bold"><%= user.global_name || user.username %></h4>
+          <p class="text-muted mb-1">@<%= user.username %></p>
+          <p class="small text-muted">ID: <code><%= user.id %></code></p>
+          <p class="small text-muted">
+            Created: <%= new Date(Number((BigInt(user.id) >> 22n) + 1420070400000n)).toLocaleString() %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card shadow rounded-4 border-0 h-100">
+        <div class="card-body">
+          <h5 class="card-title">Account Info</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Email:</strong> <%= user.email || 'N/A' %></li>
+            <li class="list-group-item"><strong>Locale:</strong> <%= user.locale || 'Unknown' %></li>
+            <li class="list-group-item"><strong>MFA:</strong> <%= user.mfa_enabled ? 'Enabled' : 'Disabled' %></li>
+            <li class="list-group-item"><strong>Verified:</strong> <%= user.verified ? 'Yes' : 'No' %></li>
+            <li class="list-group-item"><strong>Nitro:</strong>
+              <% if (user.premium_type === 1) { %>Classic<% } else if (user.premium_type === 2) { %>Nitro<% } else { %>None<% } %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card shadow rounded-4 border-0 h-100">
+        <div class="card-body">
+          <h5 class="card-title">Technical</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Flags:</strong> <%= user.flags %></li>
+            <li class="list-group-item"><strong>Public Flags:</strong> <%= user.public_flags %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <% if (guilds && guilds.length > 0) { %>
+    <div class="col-12">
+      <div class="card shadow rounded-4 border-0">
+        <div class="card-body">
+          <h5 class="card-title">Your Servers</h5>
+          <div class="row g-3">
+            <% guilds.forEach(guild => { %>
+              <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                  <div class="card-body d-flex align-items-center">
+                    <img src="<%= guild.icon
+                      ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64`
+                      : 'https://cdn-icons-png.flaticon.com/512/5968/5968756.png' %>"
+                      class="rounded me-3" style="width: 48px; height: 48px;" alt="Guild Icon">
+                    <div>
+                      <h6 class="card-title mb-0"><%= guild.name %></h6>
+                      <small class="text-muted">ID: <%= guild.id %></small><br>
+                      <% if (guild.owner) { %>
+                        <span class="badge bg-primary mt-1">Owner</span>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+<% } else { %>
+  <div class="align-items-center text-center">
+    <img src="/img/logo-text.png">
+    <h1>Image Uploader <span style="font-size: 15px !important;" class="text-secondary">by Pedrex</span></h1>
+    <p>
+        My own image uploader, used exclusively by me to host my images.<br>
+        Are you interested in this project? It's <a href="https://github.com/PedrexDev/image-uploader">open-source on my GitHub!</a> Feel free to give it a <span class="text-warning fw-bold"><i class="fa-solid fa-star"></i> star!</span>
+    </p>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>
