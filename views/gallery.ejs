@@ -21,7 +21,7 @@
               </small>
 
               <form class="mt-auto d-flex justify-content-between" action="/upload/delete/<%= upload._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                <a href="/upload/edit/<%= upload._id %>" class="btn btn-outline-primary btn-sm">Edit</a>
+                <a href="/gallery/edit/<%= upload._id %>" class="btn btn-outline-primary btn-sm">Edit</a>
                 <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
               </form>
             </div>

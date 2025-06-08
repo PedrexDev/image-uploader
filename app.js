@@ -14,6 +14,8 @@ app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUniniti
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(express.urlencoded({ extended: true }));
+
 const ALLOWED_USER_ID = process.env.OWNER_ID;
 
 const isAuthenticated = (req, res, next) => {
