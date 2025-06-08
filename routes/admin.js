@@ -29,7 +29,7 @@ router.post('/add', isOwner, async (req, res) => {
     const user = await User.findOne({ discordId });
     if (!user) return res.status(404).send('User not found');
 
-    user.role = 'user'; // or 'admin' if you want more granularity
+    user.role = 'owner';
     await user.save();
 
     res.redirect('/admin');
@@ -43,7 +43,7 @@ router.post('/remove/:discordId', isOwner, async (req, res) => {
   try {
     const user = await User.findOne({ discordId: req.params.discordId });
     if (user) {
-      user.role = 'none'; // or 'revoked' if you want to keep the record
+      user.role = 'user';
       await user.save();
     }
     res.redirect('/admin');
