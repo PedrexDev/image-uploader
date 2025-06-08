@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://i.imgur.com/NAyZHc3.png" alt="Uploader Logo" width="120" />
 
-  # 📸 Image Uploader App
+  # Image Uploader
 
   <p>
     A simple, clean, and powerful image uploader platform<br>
@@ -17,7 +17,7 @@
 
 ---
 
-## ✨ What is this?
+## What is this?
 
 This app lets selected users upload and manage images. There's a clean admin panel where the owner can:
 
@@ -28,26 +28,26 @@ This app lets selected users upload and manage images. There's a clean admin pan
 
 ---
 
-## 🖼️ Features
+## Features
 
-- 🔐 **User Access Control** — Only approved users can upload
-- 🖼️ **Image Uploading** — With title, description, and preview
-- 🛠️ **Admin Dashboard** — Manage users and uploads easily
-- 📊 **Statistics** — Uploads per day shown in a simple chart
-- 🧼 **Minimal Design** — Clean interface with Bootstrap 5.3
+- **User Access Control** — Only approved users can upload
+- **Image Uploading** — With title, description, and preview
+- **Admin Dashboard** — Manage users and uploads easily
+- **Statistics** — Uploads per day shown in a simple chart
+- **Minimal Design** — Clean interface with Bootstrap 5.3
 
 ---
 
-## 🚀 How to Start (for Beginners)
+## How get the project going
 
-### 📦 Step 1: Download It
+### Step 1: Download It
 
 ```bash
 git clone https://github.com/PedrexDev/image-uploader.git
 cd image-uploader
 ```
 
-### 💻 Step 2: Need to create .env file
+### Step 2: Need to create .env file
 Below is a sample you can use to create your `.env` file.
 ```bash
 MONGODB_URI=<your mongodb uri>
@@ -60,7 +60,7 @@ PORT=3000
 ```
 In this template, just replace the dummy information given here with your information.
 
-### 💡 Step 3: Let's get this thing going!
+### Step 3: Let's get this thing going!
 If you've completed all these steps, now there's nothing left to do but launch the app! It's not complicated, just enter this command in your console:
 ```bash
 node app.js
@@ -74,5 +74,5 @@ This means that the application has successfully connected to MongoDB and is ava
 
 ---
 
-## 📑 License
+## License
 [MIT](https://choosealicense.com/licenses/mit/)
